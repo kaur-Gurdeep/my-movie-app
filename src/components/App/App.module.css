@@ -1,0 +1,12 @@
+.App {
+  background-color: black;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  flex: 1;
+  padding: 10px;
+  border-bottom: 1px solid red;
+  overflow-y: auto;
+}

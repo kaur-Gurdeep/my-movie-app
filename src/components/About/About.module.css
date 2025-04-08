@@ -1,0 +1,51 @@
+.aboutContainer {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Image with Overlay */
+.imageOverlayContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.bannerImage {
+  width: 100%;
+  max-height: 550px;
+  display: block;
+  object-fit: cover;
+}
+
+.overlayText {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+}
+
+.overlayText h1 {
+  font-size: 2rem;
+  /* margin-bottom: 20px; */
+  color: black;
+}
+
+.overlayText p {
+  font-size: 1.3rem;
+  color: black;
+}
+
+@media (max-width: 768px) {
+  .overlayText h1 {
+    font-size: 1.1rem;
+  }
+
+  .overlayText p {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,108 @@
+.watchlater-container {
+  padding: 20px;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.movie-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  list-style-type: none;
+  padding: 0;
+}
+
+.movie-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ccc;
+  background-color: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.movie-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.movie-poster {
+  width: 300px;
+  height: 250px;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border-radius: 8px;
+}
+
+.movie-details {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.movie-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.movie-meta {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.movie-meta strong {
+  font-weight: bold;
+}
+
+.watch-later-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-top: 10px;
+  color: orange;
+  transition: transform 0.2s ease-in-out;
+}
+
+.watch-later-icon:hover {
+  color: darkorange;
+  transform: scale(1.2);
+}
+
+.no-watchlater-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.no-watchlater-container p {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.browse-movies-link {
+  font-size: 1.2rem;
+  color: white;
+  text-decoration: none;
+  background-color: black;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 2px solid orange;
+  transition: all 0.3s ease;
+}
+
+.browse-movies-link:hover {
+  color: black;
+  background-color: white;
+  border-color: orange;
+}

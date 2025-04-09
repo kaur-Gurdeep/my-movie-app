@@ -1,89 +1,101 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import movieData from "../../constants/index";
 import styles from "../MovieList/MovieList.module.css";
 
 function MovieList({ favorites, setFavorites, watchLater, setWatchLater }) {
+  const [movies, setMovies] = useState([]);
+  const apiKey = import.meta.env.VITE_TMDB_API_KEY;
+
+  // Fetch movies from TMDB
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`
+        );
+        const data = await response.json();
+        setMovies(data.results);
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+      }
+    };
+
+    fetchMovies();
+  }, []);
 
   // Handle add/remove from favorites
   const handleFavorite = (movie) => {
-    if (favorites.includes(movie)) {
-      setFavorites(favorites.filter((fav) => fav !== movie)); // Remove from favorites
+    const isAlreadyFavorite = favorites.some((fav) => fav.id === movie.id);
+    if (isAlreadyFavorite) {
+      setFavorites(favorites.filter((fav) => fav.id !== movie.id));
     } else {
-      setFavorites([...favorites, movie]); // Add to favorites
+      setFavorites([...favorites, movie]);
     }
   };
 
   // Handle add/remove from watch later
   const handleWatchLater = (movie) => {
-    if (watchLater.includes(movie)) {
-      setWatchLater(watchLater.filter((watch) => watch !== movie)); // Remove from watch later
+    const isAlreadyWatchLater = watchLater.some((watch) => watch.id === movie.id);
+    if (isAlreadyWatchLater) {
+      setWatchLater(watchLater.filter((watch) => watch.id !== movie.id));
     } else {
-      setWatchLater([...watchLater, movie]); // Add to watch later
+      setWatchLater([...watchLater, movie]);
     }
   };
 
   return (
     <div className={styles["movie-list-container"]}>
       <h2>All Movies</h2>
-      {Object.keys(movieData).map((year) => (
-        <div key={year}>
-          <h3 className={styles["year-section"]}>
-            <span className={styles["hyphen"]}>------------------------------</span>
-            {year}
-            <span className={styles["hyphen"]}>------------------------------</span>
-          </h3>
+      <ul className={styles["movie-list"]}>
+        {movies.map((movie, index) => {
+          const isFavorite = favorites.some((fav) => fav.id === movie.id);
+          const isWatchLater = watchLater.some((watch) => watch.id === movie.id);
 
-          <ul className={styles["movie-list"]}>
-            {movieData[year].map((movie, index) => (
-              <li key={index} className={styles["movie-item"]}>
-                <div className={styles["movie-content"]}>
-                  {/* Movie Poster */}
-                  <img
-                    src={movie.poster}
-                    alt={movie.name}
-                    className={styles["movie-poster"]}
-                  />
-                  {/* Movie Details */}
-                  <div className={styles["movie-details"]}>
-                    <h4 className={styles["movie-title"]}>{movie.name}</h4>
-                    <p className={styles["movie-meta"]}>
-                      <strong>Rating:</strong> {movie.rating}
-                    </p>
-                    <p className={styles["movie-meta"]}>
-                      <strong>Genre:</strong> {movie.genre}
-                    </p>
-                    <p className={styles["movie-meta"]}>
-                      <strong>Released:</strong> {movie.released}
-                    </p>
-                    <p className={styles["view-details"]}>
-                      <Link to={`/movie/${movie.name}`}>View Details</Link>
-                    </p>
+          return (
+            <li key={index} className={styles["movie-item"]}>
+              <div className={styles["movie-content"]}>
+                {/* Movie Poster */}
+                <img
+                  src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                  alt={movie.title}
+                  className={styles["movie-poster"]}
+                />
+                {/* Movie Details */}
+                <div className={styles["movie-details"]}>
+                  <h4 className={styles["movie-title"]}>{movie.title}</h4>
+                  <p className={styles["movie-meta"]}>
+                    <strong>Rating:</strong> {movie.vote_average}
+                  </p>
+                  <p className={styles["movie-meta"]}>
+                    <strong>Released:</strong> {movie.release_date}
+                  </p>
+                  <p className={styles["view-details"]}>
+                    <Link to={`/movie/${movie.id}`}>View Details</Link>
+                  </p>
 
-                    {/* Heart Icon - Favorite */}
-                    <span
-                      className={styles["heart-icon"]}
-                      style={{ color: favorites.includes(movie) ? "red" : "black" }}
-                      onClick={() => handleFavorite(movie)}
-                    >
-                      {favorites.includes(movie) ? "❤️" : "🤍"}
-                    </span>
+                  {/* Heart Icon - Favorite */}
+                  <span
+                    className={styles["heart-icon"]}
+                    style={{ color: isFavorite ? "red" : "black", cursor: "pointer" }}
+                    onClick={() => handleFavorite(movie)}
+                  >
+                    {isFavorite ? "❤️" : "🤍"}
+                  </span>
 
-                    {/* Watch Later Icon */}
-                    <span
-                      className={styles["watch-later-icon"]}
-                      style={{ color: watchLater.includes(movie) ? "orange" : "black" }}
-                      onClick={() => handleWatchLater(movie)}
-                    >
-                      {watchLater.includes(movie) ? "⏰" : "🕑"} {/* Using clock icons as example */}
-                    </span>
-                  </div>
+                  {/* Watch Later Icon */}
+                  <span
+                    className={styles["watch-later-icon"]}
+                    style={{ color: isWatchLater ? "orange" : "black", cursor: "pointer" }}
+                    onClick={() => handleWatchLater(movie)}
+                  >
+                    {isWatchLater ? "⏰" : "🕑"}
+                  </span>
                 </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

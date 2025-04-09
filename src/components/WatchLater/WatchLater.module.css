@@ -8,11 +8,16 @@ h2 {
 }
 
 .movie-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
   gap: 20px;
   list-style-type: none;
   padding: 0;
+}
+.movie-list:only-child {
+  grid-template-columns: 1fr;
+  justify-content: center;
 }
 
 .movie-item {
@@ -25,6 +30,7 @@ h2 {
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
+  width: 300px;
 }
 
 .movie-content {
@@ -36,7 +42,7 @@ h2 {
 
 .movie-poster {
   width: 300px;
-  height: 250px;
+  height: 200px;
   object-fit: cover;
   margin-bottom: 15px;
   border-radius: 8px;
@@ -56,7 +62,7 @@ h2 {
 
 .movie-meta {
   font-size: 1rem;
-  margin: 5px 0;
+  margin: 3px 0;
 }
 
 .movie-meta strong {
